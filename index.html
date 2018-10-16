@@ -1,0 +1,457 @@
+<!doctype html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>A Better Google Analytics Module</title>
+
+	<link rel="stylesheet" href="lib/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/myplanet.css">
+	<link rel="stylesheet" href="css/presentation.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/highlight-github.css">
+
+	<link rel="icon" href="lib/myplanet/logo/radiant-orange/mark-knockout.svg"/>
+
+	<meta property="og:url" content="https://gapple.github.io/presentation-better-analytics-vandug/" />
+	<meta property="og:title" content="Implementing better visitor analytics" />
+	<meta property="og:image" content="https://gapple.github.io/presentation-better-analytics-vandug/images/facebook-card.png" />
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:creator" content="@gappleca">
+	<meta name="twitter:image" content="https://gapple.github.io/presentation-better-analytics-vandug/images/twitter-card.png">
+
+	<script src="js/reveal-print.js"></script>
+</head>
+<body>
+<div class="reveal pattern--molecules">
+	<div class="slides">
+		<section>
+			<section class="title" id="title">
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo logo--full"><span class="visually-hidden">Myplanet</span></div>
+					</div>
+					<div class="content">
+						<h1>A Better Google Analytics Module</h1>
+					</div>
+					<div class="credit">
+						<hr>
+						<div class="label">Presented By</div>
+						<div class="name">Geoff Appleby</div>
+					</div>
+					<a class="presentation-url" href="https://gapple.github.io/presentation-better-analytics-vandug/">https://gapple.github.io/presentation-better-analytics-vandug/</a>
+				</div>
+			</section>
+		</section>
+		<section>
+			<section id="ga-module-page" class="screenshot full">
+				<div class="grid-wrapper">
+					<img src="images/ga-module.png" alt="Googalytics module Drupal.org page" />
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<div class="content">
+						<h2><a href="https://www.drupal.org/project/ga">https://www.drupal.org/project/ga</a></h2>
+						<ul>
+							<li>OOP</li>
+							<li>Easy to customize behaviour</li>
+							<li>Content Security Policy</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section id="ga-module-config" class="screenshot full">
+				<div class="grid-wrapper">
+					<img src="images/ga-module-config.png" alt="Googalytics module configuration page" />
+				</div>
+			</section>
+			<section id="ga-module-config-dimensions" class="screenshot full">
+				<div class="grid-wrapper">
+					<img src="images/ga-module-config-dimensions.png" alt="Googalytics module dimensions and metrics configuration page" />
+				</div>
+			</section>
+		</section>
+		<section class="commands">
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<ul>
+						<li>Create</li>
+						<li>Require</li>
+						<li>Set</li>
+						<li>Send</li>
+					</ul>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<div class="content">
+						<h1>Create</h1>
+						<table>
+							<tr><th>trackingId:</th><td>{string}</td></tr>
+							<tr><th>cookieDomain:</th><td>{string}</td><td>optional</td></tr>
+						</table>
+						<figure class="code">
+							<figcaption>JS</figcaption>
+							<pre><code class="lang-js">
+								ga('create', 'UA-107047227-2', 'auto');
+							</code></pre>
+						</figure>
+
+						<figure class="code">
+							<figcaption>PHP</figcaption>
+							<pre><code class="lang-php">
+								new Create('UA-107047227-2');
+							</code></pre>
+						</figure>
+					</div>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<div class="content">
+						<h1>Require</h1>
+						<table>
+							<tr><th>plugin:</th><td>{string}</td></tr>
+						</table>
+						<figure class="code">
+							<figcaption>JS</figcaption>
+							<pre><code class="lang-js">
+								ga('require', 'linker');
+							</code></pre>
+						</figure>
+						<figure class="code">
+							<figcaption>PHP</figcaption>
+							<pre><code class="lang-php">
+								new RequirePlugin('linker');
+							</code></pre>
+						</figure>
+					</div>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<div class="content">
+						<h1>Dimensions</h1>
+						<h2>Set</h2>
+						<table>
+							<tr><th>key:</th><td>{string}</td></tr>
+							<tr><th>value:</th><td>{string}</td></tr>
+						</table>
+						<figure class="code">
+							<figcaption>JS</figcaption>
+							<pre><code class="lang-js">
+								ga('set', 'dimension1', 'article');
+							</code></pre>
+						</figure>
+						<figure class="code">
+							<figcaption>PHP</figcaption>
+							<pre><code class="lang-php">
+								new Set('dimension1', 'article');
+							</code></pre>
+						</figure>
+					</div>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<div class="content">
+						<h1>Metrics</h1>
+						<h2>Set</h2>
+						<table>
+							<tr><th>key:</th><td>{number}</td></tr>
+							<tr><th>value:</th><td>{number}</td></tr>
+						</table>
+						<figure class="code">
+							<figcaption>JS</figcaption>
+							<pre><code class="lang-js">
+								ga('set', 'metric1', 2);
+							</code></pre>
+						</figure>
+						<figure class="code">
+							<figcaption>PHP</figcaption>
+							<pre><code class="lang-php">
+								new Set('metric1', 2);
+							</code></pre>
+						</figure>
+					</div>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<div class="content">
+						<h1>Pageview</h1>
+						<h2>Send</h2>
+						<table>
+							<tr><th>title:</th><td>{string}</td><td>optional</td></tr>
+							<tr><th>location:</th><td>{string}</td><td>optional</td></tr>
+							<tr><th>page:</th><td>{string}</td><td>optional</td></tr>
+						</table>
+						<figure class="code">
+							<figcaption>JS</figcaption>
+							<pre><code class="lang-js">
+								ga('send', 'pageview');
+							</code></pre>
+						</figure>
+						<figure class="code">
+							<figcaption>PHP</figcaption>
+							<pre><code class="lang-php">
+								new Send('pageview');
+							</code></pre>
+						</figure>
+					</div>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<div class="content">
+						<h1>Events</h1>
+						<h2>Send</h2>
+						<table>
+							<tr><th>category:</th><td>{string}</td></tr>
+							<tr><th>action:</th><td>{string}</td></tr>
+							<tr><th>label:</th><td>{string}</td><td>optional</td></tr>
+							<tr><th>value:</th><td>{number}</td><td>optional</td></tr>
+						</table>
+						<figure class="code">
+							<figcaption>JS</figcaption>
+							<pre><code class="lang-js">
+								ga('send', 'event', 'video', 'play', 'cats.mp4');
+							</code></pre>
+						</figure>
+						<figure class="code">
+							<figcaption>PHP</figcaption>
+							<pre><code class="lang-php">
+								new Event('video', 'play', 'cats.mp4');
+							</code></pre>
+						</figure>
+					</div>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<div class="content">
+						<h1>User Timings</h1>
+						<h2>Send</h2>
+						<table>
+							<tr><th>category:</th><td>{string}</td></tr>
+							<tr><th>var:</th><td>{string}</td></tr>
+							<tr><th>value:</th><td>{number}</td></tr>
+							<tr><th>label:</th><td>{string}</td><td>optional</td></tr>
+						</table>
+						<figure class="code">
+							<figcaption>JS</figcaption>
+							<pre><code class="lang-js">
+								ga('send', 'timing', 'resource', 'get', 100);
+							</code></pre>
+						</figure>
+						<figure class="code">
+							<figcaption>PHP</figcaption>
+							<pre><code class="lang-php">
+								new Timing('resource', 'get', 100);
+							</code></pre>
+						</figure>
+					</div>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<div class="content">
+						<h1>Social</h1>
+						<h2>Send</h2>
+						<table>
+							<tr><th>network:</th><td>{string}</td></tr>
+							<tr><th>action:</th><td>{string}</td></tr>
+							<tr><th>target:</th><td>{string}</td></tr>
+						</table>
+						<figure class="code">
+							<figcaption>JS</figcaption>
+							<pre><code class="lang-js">
+								ga('send', 'social', 'twitter', 'tweet', 'articles/give-it-a-go-and-grow-your-own-herbs');
+							</code></pre>
+						</figure>
+						<figure class="code">
+							<figcaption>PHP</figcaption>
+							<pre><code class="lang-php">
+								new Send('social', [
+									'socialNetwork' => 'twitter',
+									'socialAction' => 'tweet',
+									'socialTarget' => 'articles/give-it-a-go-and-grow-your-own-herbs'
+								]);
+							</code></pre>
+						</figure>
+					</div>
+				</div>
+			</section>
+		</section>
+		<section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<figure class="code">
+					<pre><code class="lang-yaml">
+						services:
+							umami_ga.analytics_subscriber:
+								class: Drupal\umami_ga\EventSubscriber\AnalyticsSubscriber
+								arguments: ['@current_route_match']
+								tags:
+								  - { name: event_subscriber }
+					</code></pre>
+					<figcaption class="path">umami_ga.services.yml</figcaption>
+					</figure>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<figure class="code">
+					<pre><code class="lang-php">
+						namespace Drupal\umami_ga\EventSubscriber;
+
+						class AnalyticsSubscriber implements EventSubscriberInterface {
+
+							public static function getSubscribedEvents() {
+								return [
+									AnalyticsEvents::COLLECT => ['onAnalyticsCollect']
+								];
+							}
+
+							public function __construct(RouteMatchInterface $routeMatch) {
+								$this->routeMatch = $routeMatch;
+							}
+
+						}
+					</code></pre>
+					<figcaption class="path">src/EventSubscriber/AnalyticsSubscriber.php</figcaption>
+					</figure>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<figure class="code">
+					<pre><code class="lang-php">
+						public function onAnalyticsCollect(CollectEvent $event) {
+							$node = $this->routeMatch->getParameter('node')
+
+							if (!empty($node->field_recipe_category[0]->entity)) {
+								$category = $node->field_recipe_category[0]->entity->name->value;
+								$event->addCommand(new Set('dimension1', $category));
+							}
+
+							if (!empty($node->field_difficulty)) {
+								$difficulty = $node->field_difficulty->value;
+								$event->addCommand(new Set('dimension2', $difficulty));
+							}
+
+							if (!empty($node) && $node->bundle() == 'article') {
+								$username = $node->getRevisionUser()->getAccountName();
+								$event->addCommand(new Set('dimension3', $username));
+							}
+						}
+					</code></pre>
+					<figcaption class="path">src/EventSubscriber/AnalyticsSubscriber.php</figcaption>
+					</figure>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<figure class="code">
+					<pre><code class="lang-js">
+						(function ($) {
+							$('body').on('click', 'a', function (event) {
+								var href = $(this).attr('href');
+
+								if (
+									!href.match('^(\d+):\/\/')
+									||
+									href.match('^(https?):\/\/' + window.location.host)
+								) {
+									return;
+								}
+
+								ga('send', 'event', {
+									eventCategory: 'Outbound Link',
+									eventAction: 'click',
+									eventLabel: href
+								});
+							});
+
+						})(jQuery);
+					</code></pre>
+					</figure>
+				</div>
+			</section>
+		</section>
+		<section id="end" class="color--midnight">
+			<div class="grid-wrapper">
+				<div class="content">
+					<a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+<script src="js/reveal-init.js"></script>
+</body>
+</html>
