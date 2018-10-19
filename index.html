@@ -18,7 +18,7 @@
 	<link rel="icon" href="lib/myplanet/logo/radiant-orange/mark-knockout.svg"/>
 
 	<meta property="og:url" content="https://gapple.github.io/presentation-better-analytics-vandug/" />
-	<meta property="og:title" content="Implementing better visitor analytics" />
+	<meta property="og:title" content="A Better Google Analytics Module" />
 	<meta property="og:image" content="https://gapple.github.io/presentation-better-analytics-vandug/images/facebook-card.png" />
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:creator" content="@gappleca">
@@ -48,9 +48,12 @@
 			</section>
 		</section>
 		<section>
-			<section id="ga-module-page" class="screenshot full">
+			<section id="ga-module-page" class="screenshot">
 				<div class="grid-wrapper">
-					<img src="images/ga-module.png" alt="Googalytics module Drupal.org page" />
+					<div class="content">
+						<img src="images/ga-module.png" alt="Googalytics module Drupal.org page" />
+						<h2><a href="https://www.drupal.org/project/ga">https://www.drupal.org/project/ga</a></h2>
+					</div>
 				</div>
 			</section>
 			<section>
@@ -60,7 +63,7 @@
 						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
 					</div>
 					<div class="content">
-						<h2><a href="https://www.drupal.org/project/ga">https://www.drupal.org/project/ga</a></h2>
+						<h1>Why?</h1>
 						<ul>
 							<li>OOP</li>
 							<li>Easy to customize behaviour</li>
@@ -80,21 +83,145 @@
 				</div>
 			</section>
 		</section>
-		<section class="commands">
+		<section>
+			<div class="grid-wrapper">
+				<div class="header">
+					<div class="logo"></div>
+					<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+				</div>
+				<ul>
+					<li>Create</li>
+					<li>Require</li>
+					<li>Set
+						<ul>
+							<li>Dimension</li>
+							<li>Metric</li>
+						</ul>
+					</li>
+					<li>Send
+						<ul>
+							<li>Pageview</li>
+							<li>Event</li>
+							<li>User Timing</li>
+							<li>Social</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</section>
+		<section>
 			<section>
 				<div class="grid-wrapper">
 					<div class="header">
 						<div class="logo"></div>
 						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
 					</div>
-					<ul>
-						<li>Create</li>
-						<li>Require</li>
-						<li>Set</li>
-						<li>Send</li>
-					</ul>
+					<figure class="code">
+					<pre><code class="lang-yaml">
+						services:
+							umami_ga.analytics_subscriber:
+								class: Drupal\umami_ga\EventSubscriber\AnalyticsSubscriber
+								arguments: ['@current_route_match']
+								tags:
+								  - { name: event_subscriber }
+					</code></pre>
+					<figcaption class="path">umami_ga.services.yml</figcaption>
+					</figure>
 				</div>
 			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<figure class="code">
+					<pre><code class="lang-php">
+						namespace Drupal\umami_ga\EventSubscriber;
+
+						class AnalyticsSubscriber implements EventSubscriberInterface {
+
+							public static function getSubscribedEvents() {
+								return [
+									AnalyticsEvents::COLLECT => ['onAnalyticsCollect']
+								];
+							}
+
+							public function __construct(RouteMatchInterface $routeMatch) {
+								$this->routeMatch = $routeMatch;
+							}
+
+						}
+					</code></pre>
+					<figcaption class="path">src/EventSubscriber/AnalyticsSubscriber.php</figcaption>
+					</figure>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<figure class="code">
+					<pre><code class="lang-php">
+						public function onAnalyticsCollect(CollectEvent $event) {
+							$node = $this->routeMatch->getParameter('node')
+
+							if (!empty($node->field_recipe_category[0]->entity)) {
+								$category = $node->field_recipe_category[0]->entity->name->value;
+								$event->addCommand(new Set('dimension1', $category));
+							}
+
+							if (!empty($node->field_difficulty)) {
+								$difficulty = $node->field_difficulty->value;
+								$event->addCommand(new Set('dimension2', $difficulty));
+							}
+
+							if (!empty($node) && $node->bundle() == 'article') {
+								$username = $node->getRevisionUser()->getAccountName();
+								$event->addCommand(new Set('dimension3', $username));
+							}
+						}
+					</code></pre>
+					<figcaption class="path">src/EventSubscriber/AnalyticsSubscriber.php</figcaption>
+					</figure>
+				</div>
+			</section>
+			<section>
+				<div class="grid-wrapper">
+					<div class="header">
+						<div class="logo"></div>
+						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
+					</div>
+					<figure class="code">
+					<pre><code class="lang-js">
+						(function ($) {
+							$('body').on('click', 'a', function (event) {
+								var href = $(this).attr('href');
+
+								if (
+									!href.match('^(\d+):\/\/')
+									||
+									href.match('^(https?):\/\/' + window.location.host)
+								) {
+									return;
+								}
+
+								ga('send', 'event', {
+									eventCategory: 'Outbound Link',
+									eventAction: 'click',
+									eventLabel: href
+								});
+							});
+
+						})(jQuery);
+					</code></pre>
+					</figure>
+				</div>
+			</section>
+		</section>
+		<section class="commands">
 			<section>
 				<div class="grid-wrapper">
 					<div class="header">
@@ -325,118 +452,6 @@
 							</code></pre>
 						</figure>
 					</div>
-				</div>
-			</section>
-		</section>
-		<section>
-			<section>
-				<div class="grid-wrapper">
-					<div class="header">
-						<div class="logo"></div>
-						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
-					</div>
-					<figure class="code">
-					<pre><code class="lang-yaml">
-						services:
-							umami_ga.analytics_subscriber:
-								class: Drupal\umami_ga\EventSubscriber\AnalyticsSubscriber
-								arguments: ['@current_route_match']
-								tags:
-								  - { name: event_subscriber }
-					</code></pre>
-					<figcaption class="path">umami_ga.services.yml</figcaption>
-					</figure>
-				</div>
-			</section>
-			<section>
-				<div class="grid-wrapper">
-					<div class="header">
-						<div class="logo"></div>
-						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
-					</div>
-					<figure class="code">
-					<pre><code class="lang-php">
-						namespace Drupal\umami_ga\EventSubscriber;
-
-						class AnalyticsSubscriber implements EventSubscriberInterface {
-
-							public static function getSubscribedEvents() {
-								return [
-									AnalyticsEvents::COLLECT => ['onAnalyticsCollect']
-								];
-							}
-
-							public function __construct(RouteMatchInterface $routeMatch) {
-								$this->routeMatch = $routeMatch;
-							}
-
-						}
-					</code></pre>
-					<figcaption class="path">src/EventSubscriber/AnalyticsSubscriber.php</figcaption>
-					</figure>
-				</div>
-			</section>
-			<section>
-				<div class="grid-wrapper">
-					<div class="header">
-						<div class="logo"></div>
-						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
-					</div>
-					<figure class="code">
-					<pre><code class="lang-php">
-						public function onAnalyticsCollect(CollectEvent $event) {
-							$node = $this->routeMatch->getParameter('node')
-
-							if (!empty($node->field_recipe_category[0]->entity)) {
-								$category = $node->field_recipe_category[0]->entity->name->value;
-								$event->addCommand(new Set('dimension1', $category));
-							}
-
-							if (!empty($node->field_difficulty)) {
-								$difficulty = $node->field_difficulty->value;
-								$event->addCommand(new Set('dimension2', $difficulty));
-							}
-
-							if (!empty($node) && $node->bundle() == 'article') {
-								$username = $node->getRevisionUser()->getAccountName();
-								$event->addCommand(new Set('dimension3', $username));
-							}
-						}
-					</code></pre>
-					<figcaption class="path">src/EventSubscriber/AnalyticsSubscriber.php</figcaption>
-					</figure>
-				</div>
-			</section>
-			<section>
-				<div class="grid-wrapper">
-					<div class="header">
-						<div class="logo"></div>
-						<div class="twitter"><a href="https://twitter.com/gappleca"><i class="fa fa-twitter"></i> <span>gappleca</span></a></div>
-					</div>
-					<figure class="code">
-					<pre><code class="lang-js">
-						(function ($) {
-							$('body').on('click', 'a', function (event) {
-								var href = $(this).attr('href');
-
-								if (
-									!href.match('^(\d+):\/\/')
-									||
-									href.match('^(https?):\/\/' + window.location.host)
-								) {
-									return;
-								}
-
-								ga('send', 'event', {
-									eventCategory: 'Outbound Link',
-									eventAction: 'click',
-									eventLabel: href
-								});
-							});
-
-						})(jQuery);
-					</code></pre>
-					</figure>
 				</div>
 			</section>
 		</section>

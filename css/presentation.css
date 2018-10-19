@@ -19,9 +19,13 @@ img {
 }
 
 .reveal ul {
-    font-size: 1.5em;
+    font-size: 1.5rem;
     align-self: center;
     justify-self: center;
+    /*line-height: 1.2;*/
+}
+.reveal ul ul {
+    margin-bottom: 0.5rem;
 }
 @media (min-width: 1280px) {
     .reveal ul {
@@ -82,6 +86,27 @@ figure.code figcaption {
     color: #EEEDEF;
 }
 
+#ga-module-page .grid-wrapper {
+    padding: 5vmin;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "content";
+}
+#ga-module-page .content {
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+}
+#ga-module-page .content img {
+    flex-shrink: 1;
+    min-height: 0;
+}
+#ga-module-page .content img+h2 {
+    text-align: center;
+    margin-top: 2.5vmin;
+    margin-bottom: 0;
+}
+
 .commands table {
     margin: 0;
 }
@@ -98,6 +123,16 @@ figure.code figcaption {
     margin-top: 2em;
 }
 
+#end .content {
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+}
+#end img {
+    margin: auto auto 1.5rem;
+    min-height: 0;
+    flex-shrink: 1;
+}
 #end .content {
     margin-top: auto;
     text-align: center;
